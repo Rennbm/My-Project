@@ -106,6 +106,52 @@ function QStyleUI:CreateWindow(config)
     canvas.Size = UDim2.new(1, 0, 1, 0)
     canvas.BackgroundTransparency = 1
 
+    -- Topbar
+local topbar = Instance.new("Frame")
+topbar.Name = "Topbar"
+topbar.Size = UDim2.new(1, 0, 0, 28)
+topbar.BackgroundTransparency = 1
+topbar.Parent = mainFrame
+
+-- Close Button (X)
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 28, 0, 28)
+closeBtn.Position = UDim2.new(1, -32, 0, 0)
+closeBtn.BackgroundTransparency = 1
+closeBtn.Text = "✕"
+closeBtn.TextColor3 = Color3.fromRGB(220, 80, 80)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 18
+closeBtn.Parent = topbar
+
+closeBtn.MouseButton1Click:Connect(function()
+    -- reset default disini (ESP off, WalkSpeed reset, dll)
+    print("UI Closed -> reset semua ke default")
+    screenGui:Destroy()
+end)
+
+-- Hide Button (—)
+local hideBtn = Instance.new("TextButton")
+hideBtn.Size = UDim2.new(0, 28, 0, 28)
+hideBtn.Position = UDim2.new(1, -64, 0, 0)
+hideBtn.BackgroundTransparency = 1
+hideBtn.Text = "—"
+hideBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
+hideBtn.Font = Enum.Font.GothamBold
+hideBtn.TextSize = 18
+hideBtn.Parent = topbar
+
+local hidden = false
+hideBtn.MouseButton1Click:Connect(function()
+    hidden = not hidden
+    for _, child in ipairs(mainFrame:GetChildren()) do
+        if child ~= topbar then
+            child.Visible = not hidden
+        end
+    end
+    print(hidden and "UI Hidden" or "UI Shown")
+end)
+
     -- Window Object
     local window = { Tabs = {}, ActiveTab = nil }
 
